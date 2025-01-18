@@ -11,10 +11,10 @@ const convertData = (columns: DataColumn[]): ChartData<any> => {
     labels,
     datasets: [
       {
-        data: columns.map(c => c.value.reduce((acc, item) => {
-          const parseAcc = parseInt(acc  as any)
-          if (typeof item !== 'number' && typeof parseAcc !== 'number') return acc;
-          return parseAcc + (item as any);
+        data: columns.map(c => c.value.reduce((acc: number, item: any) => {
+          const parsedItem = parseInt(item as any, 10); // Safely parse item to number
+          if (isNaN(parsedItem)) return acc;  // Ignore if item cannot be parsed to a number
+          return acc + parsedItem;
         }, 0)),
         backgroundColor: randomColor,
         hoverBackgroundColor: randomColor
