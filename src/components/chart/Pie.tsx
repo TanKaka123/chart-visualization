@@ -10,9 +10,10 @@ const convertData = (columns: DataColumn[]): ChartData<any> => {
     labels: labels,
     datasets: [
       {
-        data: columns.map(c => c.value.reduce((acc: number, item) => {
-          if (typeof item !== 'number') return acc;
-          return acc + item
+        data: columns.map(c => c.value.reduce((acc, item) => {
+          const parseAcc = parseInt(acc  as any)
+          if (typeof item !== 'number' && typeof parseAcc !== 'number') return acc;
+          return parseAcc + (item as any);
         }, 0)),
         backgroundColor: Array.from({ length: columns.length }, (_) => getRandomColor()),
         hoverBackgroundColor: Array.from({ length: columns.length }, (_) => getRandomColor()),
@@ -21,14 +22,6 @@ const convertData = (columns: DataColumn[]): ChartData<any> => {
 
   }
 };
-
-// [
-//   {
-//     data: [300, 50, 100],
-//     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-//     hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-//   },
-// ],
 
 type PieChartProps = {
   columns: DataColumn[]

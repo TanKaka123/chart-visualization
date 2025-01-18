@@ -11,9 +11,10 @@ const convertData = (columns: DataColumn[]): ChartData<any> => {
     labels,
     datasets: [
       {
-        data: columns.map(c => c.value.reduce((acc: number, item) => {
-          if (typeof item !== 'number') return acc;
-          return acc + item
+        data: columns.map(c => c.value.reduce((acc, item) => {
+          const parseAcc = parseInt(acc  as any)
+          if (typeof item !== 'number' && typeof parseAcc !== 'number') return acc;
+          return parseAcc + (item as any);
         }, 0)),
         backgroundColor: randomColor,
         hoverBackgroundColor: randomColor
