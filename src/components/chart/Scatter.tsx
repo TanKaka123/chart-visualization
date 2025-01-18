@@ -14,11 +14,7 @@ type ScatterChartProps = {
 }
 
 const ScatterChart: React.FC<ScatterChartProps> = ({ columns }) => {
-  const numericColumns = columns.filter(
-    (col) => col.dataType === EDataType.NUMBER
-  ) as DataColumn[];
-
-  const datasets = numericColumns.map((col) => {
+  const datasets = columns.map((col) => {
     const randomColor = getRandomColor()
     return {
       label: col.name,
