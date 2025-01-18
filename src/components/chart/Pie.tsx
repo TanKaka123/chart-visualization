@@ -10,7 +10,7 @@ const convertData = (columns: DataColumn[]): ChartData<any> => {
     labels: labels,
     datasets: [
       {
-        data: columns.map(c => c.value.reduce((acc: number, item: any) => {
+        data: columns.map(c => (c.value as number[]).reduce((acc: number, item) => {
           const parsedItem = parseInt(item as any, 10); // Safely parse item to number
           if (isNaN(parsedItem)) return acc;  // Ignore if item cannot be parsed to a number
           return acc + parsedItem;
