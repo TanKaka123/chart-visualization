@@ -2,8 +2,6 @@
 
 ### Preview
 
-- [Demo](https://chartall.vercel.app/)
-
 ![Preview](/public/preview.jpeg)
 
 ### Description
