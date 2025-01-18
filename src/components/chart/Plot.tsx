@@ -27,7 +27,6 @@ const Plot = ({ }: PlotProps) => {
     d3.csv(
       "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv"
     ).then(function (csvdata) {
-      console.log({ csvdata })
       // Add X axis
       const x = d3.scaleLinear().domain([3, 9]).range([0, width]);
       const xAxis = svg

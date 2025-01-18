@@ -11,7 +11,7 @@ type TableDataProps = {
     currentData: DataRow[];
     handleSearchInColumn: (key: string, value: string) => void;
     handleColumnDelete: (key: string) => void;
-    handleDataChange: (rowIndex: number, key: string, value: any) => void;
+    handleDataChange: (rowIndex: number, colIndex: number, value: any) => void;
     handleRowDelete: (rowIndex: number) => void;
     handleColumnNameChange: (oldName: string, newName: string) => void,
     handleSorting: (column: string) => void
@@ -51,9 +51,9 @@ export const TableData = ({
                 <Table variant="simple" minWidth="full" border="4px solid" borderColor="blue.500" rounded="lg">
                     <Thead>
                         <Tr>
-                            {visibleColumns.map(c => c.name).map((name) =>
+                            {visibleColumns.map(c => c.name).map((name, index) =>
                                 <Th
-                                    key={`${Math.floor(Math.random())}-${name}`}
+                                    key={`${Math.floor(Math.random())}-${name}-${index}`}
                                     border="1px solid"
                                     borderColor="blue.500"
                                     px={4}
@@ -150,7 +150,7 @@ export const TableData = ({
                                             {row
                                                 .filter((r) => visibleColumns.map(c => c.name).includes(r.name))
                                                 .map((dataCell, colIndex) => (
-                                                    <Td key={`${Math.floor(Math.random())}-${colIndex}-${dataCell.name}`} border="1px solid" borderColor="blue.500" px={4} py={2} onClick={() => setPosTempInput({ rowIndex, colIndex })}>
+                                                    <Td key={`${Math.floor(Math.random())}-${colIndex}-${rowIndex}-${dataCell.name}`} border="1px solid" borderColor="blue.500" px={4} py={2} onClick={() => setPosTempInput({ rowIndex, colIndex })}>
                                                         {
                                                             posTempInput?.colIndex === colIndex && posTempInput.rowIndex === rowIndex ?
                                                                 <Input
@@ -174,7 +174,7 @@ export const TableData = ({
                                                                     autoFocus
                                                                     onBlur={() => {
 
-                                                                        handleDataChange(rowIndex, visibleColumns[colIndex].name, tempInputValue || dataCell.value); // Update the data
+                                                                        handleDataChange(rowIndex, colIndex, tempInputValue || dataCell.value); // Update the data
                                                                         setPosTempInput(undefined);
                                                                         setTempInputValue("");
                                                                     }}

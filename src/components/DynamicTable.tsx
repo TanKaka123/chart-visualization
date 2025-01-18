@@ -22,8 +22,6 @@ const DynamicTable: React.FC = () => {
 
   const [columnSearch, setColumnSearch] = useState<{ [key: string]: string }>({});
   const { sortConfig, handleSorting } = useSorting();
-  
-  console.log(sortConfig)
 
   useEffect(() => {
     if (dataTable.length > 0) {
@@ -52,21 +50,14 @@ const DynamicTable: React.FC = () => {
   }, []);
 
 
-  const handleDataChange = useCallback(
-    (rowIndex: number, key: string, value: string | number) => {
-      const updatedData = [...dataTable];
-      const pageIndex = (currentPage - 1) * itemsPerPage;
-      const rowIndexInPage = rowIndex + pageIndex;
-      for (var i = 0; i < updatedData[rowIndexInPage].length; i++) {
-        if (key === updatedData[rowIndexInPage][i].name) {
-          console.log(updatedData[rowIndexInPage][i].name, i)
-          updatedData[rowIndexInPage][i].value = value
-        }
-      }
-      setDataTable(updatedData);
-    },
-    [dataTable, currentPage, itemsPerPage]
-  );
+  const handleDataChange =
+    (rowIndex: number, colIndex: number, value: string | number) => {
+      const  extractIdx = (currentPage - 1) * itemsPerPage;
+      setDataTable(prevData => prevData.map((row, rowIdx) => row.map((col, colIdx) => ({
+        ...col,
+        value: rowIdx === rowIndex + extractIdx && colIdx === colIndex ? value : col.value
+      } as DateCell))));
+    }
 
   const handleRowDelete = useCallback(
     (rowIndex: number) => {
@@ -89,7 +80,7 @@ const DynamicTable: React.FC = () => {
   };
 
   const handleColumnAdd = () => {
-    const newColumnName = `new column`;
+    const newColumnName = `new column ${Math.random()}`;
     const newColumn = {
       name: newColumnName,
       dataType: EDataType.NUMBER,
@@ -129,8 +120,6 @@ const DynamicTable: React.FC = () => {
 
   const sortedData = React.useMemo(() => {
     let sortableItems = [...filterColumns];
-    console.log(filterColumns)
-
     if (sortConfig.key && sortConfig.direction) {
       sortableItems.sort((a, b) => {
         const key = sortConfig.key;
@@ -257,7 +246,7 @@ const DynamicTable: React.FC = () => {
           handleColumnNameChange={handleColumnNameChange}
           sortConfig={sortConfig}
           handleSorting={handleSorting}
-          />
+        />
 
       </Box>
       <Flex direction={'row'} justify="space-between" mt={10}>
