@@ -2,7 +2,7 @@ import useSorting, { SortConfigType } from "@/hook/useSorting";
 import { Box, Table, Thead, Tr, Th, Flex, Input, IconButton, Tbody, Td, useToast, Text } from "@chakra-ui/react"
 import { ChevronUpIcon, ChevronDownIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid"
 import { FaTrashAlt } from "react-icons/fa"
-import { DataRow, EDataType } from "./types/table";
+import { DataRow, EDataType } from "../types/table";
 import React from "react";
 
 type TableDataProps = {

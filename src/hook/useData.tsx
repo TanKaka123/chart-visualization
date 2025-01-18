@@ -1,119 +1,29 @@
-// DataContext.tsx
-import { DataRow, EDataType } from '@/components/types/table';
+import { EChartType } from '@/types/chart';
+import { DataRow, EDataType } from '@/types/table';
+import { BlankWidgetType, WidgetType } from '@/types/widget';
+import { generateRandomId } from '@/utils/id';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-
-type VisibleColumnType = { name: string, dataType: EDataType }
 type DataContextType = {
-    dataTable: DataRow[];
-    setDataTable: React.Dispatch<React.SetStateAction<DataRow[]>>;
-    visibleColumns: VisibleColumnType[]
-    setVisibleColumns: React.Dispatch<React.SetStateAction<VisibleColumnType[]>>
+    widgetsData: WidgetType[]
+    setWidgetsData: React.Dispatch<React.SetStateAction<WidgetType[]>>
+    editingWidgetId?: string
+    setEditingWidgetId: React.Dispatch<React.SetStateAction<string | undefined>>
 };
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-const SAMPLE_DATA_TABLE: DataRow[] = [
-    [
-        {
-            dataType: EDataType.STRING,
-            name: 'name',
-            value: 'John Doe',
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'age',
-            value: 800,
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'order',
-            value: 1001,
-        },
-    ],
-    [
-        {
-            dataType: EDataType.STRING,
-            name: 'name',
-            value: 'Jane Smith',
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'age',
-            value: 25,
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'order',
-            value: 600,
-        },
-    ],
-    [
-        {
-            dataType: EDataType.STRING,
-            name: 'name',
-            value: 'Alice Johnson',
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'age',
-            value: 28,
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'order',
-            value: 120,
-        },
-    ],
-    [
-        {
-            dataType: EDataType.STRING,
-            name: 'name',
-            value: 'Bob Brown',
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'age',
-            value: 500,
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'order',
-            value: 1004,
-        },
-    ],
-    [
-        {
-            dataType: EDataType.STRING,
-            name: 'name',
-            value: 'Charlie Davis',
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'age',
-            value: 40,
-        },
-        {
-            dataType: EDataType.NUMBER,
-            name: 'order',
-            value: 700,
-        },
-    ],
-];
-
-
+const BLANK_WIDGET: BlankWidgetType = {
+    type: 'blank',
+    id: generateRandomId(),
+};
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
-    const [dataTable, setDataTable] = useState<DataRow[]>(SAMPLE_DATA_TABLE);
-    const [visibleColumns, setVisibleColumns] =
-        useState<VisibleColumnType[]>([
-            { name: 'name', dataType: EDataType.STRING },
-            { name: 'age', dataType: EDataType.NUMBER },
-            { name: 'order', dataType: EDataType.NUMBER }]
-        );
+    const [widgetsData, setWidgetsData] = React.useState<WidgetType[]>([BLANK_WIDGET])
+    const [editingWidgetId, setEditingWidgetId] = React.useState<string>()
 
     return (
-        <DataContext.Provider value={{ dataTable, setDataTable, visibleColumns, setVisibleColumns }}>
+        <DataContext.Provider value={{ editingWidgetId, setEditingWidgetId, widgetsData, setWidgetsData }}>
             {children}
         </DataContext.Provider>
     );

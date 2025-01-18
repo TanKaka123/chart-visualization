@@ -1,17 +1,17 @@
 import { ChartData } from "chart.js";
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { DataColumn } from "../types/table";
-import { getRandomColor } from "@/utils/randomColor";
+import { DataColumn } from "../../../types/table";
+import { CHART_COLORS, getRandomColor } from "@/utils/randomColor";
 
 const convertData = (columns: DataColumn[]): ChartData<any> => {
   const labels = columns.map(c => c.name);
 
   return {
     labels: Array.from({ length: columns[0].value.length }, (_, index) => index + 1),
-    datasets: columns.map(c => {
-      const primaryColor = getRandomColor();
-      const secondColor = getRandomColor();
+    datasets: columns.map((c, index) => {
+      const primaryColor = CHART_COLORS[index];
+      const secondColor = CHART_COLORS[index + 2];
       return {
         label: c.name,
         backgroundColor: primaryColor,

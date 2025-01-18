@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
-import { DataColumn } from "../types/table";
+import { DataColumn } from "../../../types/table";
 
 type PlotProps = {
   columns: DataColumn[]

@@ -1,6 +1,6 @@
 import React from "react";
 import { Bubble } from "react-chartjs-2";
-import { DataColumn, EDataType } from "@/components/types/table";
+import { DataColumn, EDataType } from "@/types/table";
 
 type BubbleChartProps = {
   columns: DataColumn[];
@@ -37,7 +37,11 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ columns }) => {
   };
 
   return (
-    <div>
+    <div   style={{
+      height: "400px", // Original height
+      transform: "scaleY(2)", // Scale Y-axis to double the size (200px * 2 = 400px)
+      transformOrigin: "top", // Adjust the origin of scaling
+    }}>
       <Bubble data={data} width={400} height={200} />
     </div>
   );

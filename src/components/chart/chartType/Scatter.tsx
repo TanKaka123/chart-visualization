@@ -1,8 +1,8 @@
 import { ChartData } from "chart.js";
 import React from "react";
 import { Scatter } from "react-chartjs-2";
-import { DataColumn } from "../types/table";
-import { getRandomColor } from "@/utils/randomColor";
+import { DataColumn } from "../../../types/table";
+import { CHART_COLORS, getRandomColor } from "@/utils/randomColor";
 
 export enum EDataType {
   STRING = "string",
@@ -14,8 +14,8 @@ type ScatterChartProps = {
 }
 
 const ScatterChart: React.FC<ScatterChartProps> = ({ columns }) => {
-  const datasets = columns.map((col) => {
-    const randomColor = getRandomColor()
+  const datasets = columns.map((col, idx) => {
+    const randomColor = CHART_COLORS[idx]
     return {
       label: col.name,
       data: col.value.map((value, i) => ({ x: i, y: value })),

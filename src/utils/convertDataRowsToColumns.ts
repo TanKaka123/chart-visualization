@@ -1,13 +1,11 @@
-import { DataColumn, DataRow, EDataType } from "@/components/types/table";
+import { DataColumn, DataRow, EDataType } from "@/types/table";
 
 export function convertDataRowsToColumns(dataRows: DataRow[]): DataColumn[] {
     const columnMap: Record<string, { dataType: EDataType; name: string; values: (string | number)[] }> = {};
 
-    // Iterate through each row
     for (const row of dataRows) {
         for (const cell of row) {
-            const key = `${cell.dataType}-${cell.name}`; //\]
-            //  Unique key for grouping by dataType and name
+            const key = `${cell.dataType}-${cell.name}`;
             
             if (!columnMap[key]) {
                 columnMap[key] = {

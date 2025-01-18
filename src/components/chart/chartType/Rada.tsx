@@ -1,6 +1,6 @@
 import React from "react";
 import { Radar } from "react-chartjs-2";
-import { DataColumn } from "../types/table";
+import { DataColumn } from "../../../types/table";
 import { ChartData } from "chart.js";
 
 type RadarChartProps = {

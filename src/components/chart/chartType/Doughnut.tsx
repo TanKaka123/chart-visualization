@@ -1,12 +1,12 @@
 import { ChartData } from "chart.js";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import { DataColumn } from "../types/table";
-import { getRandomColor } from "@/utils/randomColor";
+import { DataColumn } from "../../../types/table";
+import { CHART_COLORS } from "@/utils/randomColor";
 
 const convertData = (columns: DataColumn[]): ChartData<any> => {
   const labels = columns.map(c => c.name);
-  const randomColor = labels.map(() => getRandomColor())
+  const randomColor = labels.map((_, index) => CHART_COLORS[index])
   return {
     labels,
     datasets: [

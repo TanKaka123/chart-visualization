@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { MutableRefObject, useEffect, useRef } from "react";
 
 import styles from "./styles.module.css";
-import { DataColumn, EDataType } from "@/components/types/table";
+import { DataColumn, EDataType } from "@/types/table";
 
 type HeatmapProps = {
   columns: DataColumn[];

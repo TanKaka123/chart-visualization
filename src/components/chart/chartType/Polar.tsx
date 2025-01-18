@@ -1,15 +1,15 @@
 import { ChartData } from "chart.js"; 
 import React from "react";
 import { PolarArea } from "react-chartjs-2";
-import { DataColumn, EDataType } from "../types/table";
-import { getRandomColor } from "@/utils/randomColor";
+import { DataColumn, EDataType } from "../../../types/table";
+import { CHART_COLORS, getRandomColor } from "@/utils/randomColor";
 
 const convertData = (columns: DataColumn[]): ChartData<any> => {
   // Extract the names and values dynamically
   const labels = columns.map(c => c.name);
-  const datasets = columns.map(c => ({
+  const datasets = columns.map((c, index) => ({
     data: c.dataType === EDataType.NUMBER ? c.value : [0], // Use the first value for string[] or handle accordingly
-    backgroundColor: getRandomColor(), // You can adjust this based on your needs
+    backgroundColor: CHART_COLORS[index], // You can adjust this based on your needs
     label: c.name, // Set label to column name
   }));
 

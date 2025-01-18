@@ -9,13 +9,112 @@ import Pagination from "./Pagination";
 import { SearchInputTableImport } from "./SearchInputTableImport";
 import { Box, Flex, Button, Input, HStack, IconButton } from "@chakra-ui/react";
 import { TableData } from "./TableData";
-import { DataRow, EDataType, DateCell } from "./types/table";
+import { DataRow, EDataType, DateCell } from "../types/table";
 import { useDataContext } from "@/hook/useData";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { ChartWidget, EChartType } from "@/types/chart";
+import { generateRandomId } from "@/utils/id";
+
+const SAMPLE_DATA_TABLE: DataRow[] = [
+  [
+    {
+      dataType: EDataType.STRING,
+      name: 'name',
+      value: 'John Doe',
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'age',
+      value: 800,
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'order',
+      value: 1001,
+    },
+  ],
+  [
+    {
+      dataType: EDataType.STRING,
+      name: 'name',
+      value: 'Jane Smith',
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'age',
+      value: 25,
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'order',
+      value: 600,
+    },
+  ],
+  [
+    {
+      dataType: EDataType.STRING,
+      name: 'name',
+      value: 'Alice Johnson',
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'age',
+      value: 28,
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'order',
+      value: 120,
+    },
+  ],
+  [
+    {
+      dataType: EDataType.STRING,
+      name: 'name',
+      value: 'Bob Brown',
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'age',
+      value: 500,
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'order',
+      value: 1004,
+    },
+  ],
+  [
+    {
+      dataType: EDataType.STRING,
+      name: 'name',
+      value: 'Charlie Davis',
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'age',
+      value: 40,
+    },
+    {
+      dataType: EDataType.NUMBER,
+      name: 'order',
+      value: 700,
+    },
+  ],
+];
+
+type VisibleColumnType = { name: string, dataType: EDataType }
 
 const DynamicTable: React.FC = () => {
-  const { dataTable, visibleColumns, setDataTable, setVisibleColumns } = useDataContext()
+  const { editingWidgetId, setWidgetsData } = useDataContext()
+  const [dataTable, setDataTable] = useState<DataRow[]>(SAMPLE_DATA_TABLE);
+  const [visibleColumns, setVisibleColumns] =
+    useState<VisibleColumnType[]>([
+      { name: 'name', dataType: EDataType.STRING },
+      { name: 'age', dataType: EDataType.NUMBER },
+      { name: 'order', dataType: EDataType.NUMBER }]
+    );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(5);
@@ -52,7 +151,7 @@ const DynamicTable: React.FC = () => {
 
   const handleDataChange =
     (rowIndex: number, colIndex: number, value: string | number) => {
-      const  extractIdx = (currentPage - 1) * itemsPerPage;
+      const extractIdx = (currentPage - 1) * itemsPerPage;
       setDataTable(prevData => prevData.map((row, rowIdx) => row.map((col, colIdx) => ({
         ...col,
         value: rowIdx === rowIndex + extractIdx && colIdx === colIndex ? value : col.value
@@ -229,7 +328,24 @@ const DynamicTable: React.FC = () => {
           boxShadow="md"
           size="lg"
           rightIcon={<ArrowRightIcon />}
-          onClick={() => router.push("/visualize-data")}
+          onClick={() => {
+            if (editingWidgetId) {
+              setWidgetsData(prev=> prev.map(widget=>{
+                if(widget.id === editingWidgetId){
+                  return {
+                    type: 'chart',
+                    id: generateRandomId(),
+                    data: dataTable,
+                    description: 'no description',
+                    title: 'Untitle',
+                    chartType: EChartType.LINE_CHART
+                  } as ChartWidget
+                }
+                return widget
+              }))
+            }
+            router.push("/visualize-data")
+          }}
         >
           Visualize Data
         </Button>
