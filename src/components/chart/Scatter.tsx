@@ -31,7 +31,7 @@ const ScatterChart: React.FC<ScatterChartProps> = ({ columns }) => {
   });
 
   const data: ChartData<any> = {
-    labels: numericColumns.map((col) => col.name),
+    labels: columns.map((col) => col.name),
     datasets,
   };
 
